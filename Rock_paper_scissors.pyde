@@ -2,20 +2,36 @@ import random
 player_selection = 0
 player2_selection = 0
 player_one_selected = None
-
+score1 = 0
+score2 = 0
 
 def setup():
-    global player_selection, player_one_selected
+    global player_selection, player_one_selected,score1,score2
 
-    background(255)
     size(1000,1000)
 
 def draw():
     global player_selection, player_one_selected
+    background(255)
+
     game_board()
-    player_one_choice()
+   
+    if player_selection == 1:
+        Image = loadImage("Rock.jpg")
+        image(Image,230,330)
+
+    elif player_selection == 2:
+        Image2 = loadImage("Paper.jpg")
+        image(Image2,245,325)
+
+    elif player_selection == 3:
+        Image3 = loadImage("Scissors.jpg")
+        image(Image3,245,320)
+        
     player_two_choice()
     
+    player1score()
+    player2score()
           
 def game_board():
     fill(255)
@@ -44,22 +60,7 @@ def game_board():
     
 
 
-def player_one_choice():
-    global player_selection, player_one_selected 
-    if player_selection == 1:
-        Image = loadImage("Rock.jpg")
-        image(Image,230,330)
-        player_one_selected = True
 
-    elif player_selection == 2:
-        Image2 = loadImage("Paper.jpg")
-        image(Image2,245,325)
-        player_one_selected = True
-
-    elif player_selection == 3:
-        Image3 = loadImage("Scissors.jpg")
-        image(Image3,245,320)
-        player_one_selected = True
 
   
   
@@ -67,41 +68,82 @@ def player_one_choice():
                     
 def player_two_choice():
     global player2_selection, player_one_selected
-    if player_one_selected == True:
-        player2_selection = random.randint(1,4)
-        print(player2_selection)
-
     
     
     if player2_selection == 1:
         Image = loadImage("Rock.jpg")
-        image(Image,430,330)
-        player_one_selected = None
+        image(Image,630,330)
 
     elif player2_selection == 2:
         Image2 = loadImage("Paper.jpg")
-        image(Image2,445,325)
-        player_one_selected = None
+        image(Image2,645,325)
 
     elif player2_selection == 3:
         Image3 = loadImage("Scissors.jpg")
-        image(Image3,445,320)
-        player_one_selected = None
+        image(Image3,650,320)
 
 
+
+def win():
+    global score1,score2,player_two_selection,player2_selection, player_one_selected 
+
+    
+    if player_selection == 1 and player2_selection == 2:
+        score2 += 1
+        player_one_selected = False
+    if player_selection == 2 and player2_selection == 3:
+        score2 += 1
+        player_one_selected = False
+    if player_selection == 3 and player2_selection == 1:
+        score2 += 1
+        player_one_selected = False
+    if player_selection == 2 and player2_selection == 1:
+        score1 += 1
+        player_one_selected = False
+    if player_selection == 3 and player2_selection == 2:
+        score1 += 1
+        player_one_selected = False
+    if player_selection == 1 and player2_selection == 3:
+        score1 += 1
+        player_one_selected = False
+        
+
+
+
+
+# player 1 score              
+def player1score():
+    fill(0)
+    textSize(300)
+    text(score1,280,250)
+   
+# player 2 score
+def player2score():
+    fill(0)
+    textSize(300)
+    text(score2,630,250)    
         
         
         
 def mousePressed():
-    global player_selection
+    global player_selection,player2_selection
 
     println(mouseX)
     println(mouseY)
     if mouseX < 300 and mouseX > 100 and mouseY < 900 and mouseY > 700:
         player_selection = 1
+        player2_selection = random.randint(1,3)
+        win()
+
     if mouseX < 600 and mouseX > 400 and mouseY < 900 and mouseY > 700:
         player_selection = 2
+        player2_selection = random.randint(1,3)
+        win()
+
     if mouseX < 900 and mouseX > 700 and mouseY < 900 and mouseY > 700:
         player_selection = 3
+        player2_selection = random.randint(1,3)
+        win()
+
     
     
